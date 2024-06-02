@@ -22,3 +22,10 @@ export type IUser = {
   imageUrl: string;
   bio: string;
 };
+
+export type INavLink = {
+  imgURL: string;
+  route: string;
+  label: string;
+};
+
