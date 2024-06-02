@@ -6,3 +6,8 @@ export const SignupValidation= z.object({
     email: z.string().email(),
     password: z.string().min(8, {message: "Senha precisa ser composta por mais de 8 caracters"}),
 });
+
+export const SigninValidation= z.object({
+    email: z.string().email(),
+    password: z.string().min(8, {message: "Senha precisa ser composta por mais de 8 caracters"}),
+});
