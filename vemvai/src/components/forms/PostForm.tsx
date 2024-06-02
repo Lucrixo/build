@@ -1,4 +1,3 @@
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -20,15 +19,24 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
+import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutations";
 
 type PostFormProps = {
   post?: Models.Document;
+  action: 'Create' | 'Update';
 }
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { mutateAsync: createPost, isPending: isLoadingCreate } =
-    usecreatePost();
+    useCreatePost();
+
+    const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
+    useUpdatePost();
+
+
+
   const { toast } = useToast();
   const { user } = useUserContext();
 
@@ -45,6 +53,20 @@ const PostForm = ({ post }: PostFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof PostValidation>) {
+    if(post && action === 'Update') {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post?.imageId,
+        imageUrl: post?.imageUrl,
+      })
+
+      if(!updatedPost) {
+        toast({ title: 'Tente de novo!'})
+      }
+
+      return navigate(`/posts/${post.$id}`)
+    }
     const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -133,8 +155,9 @@ const PostForm = ({ post }: PostFormProps) => {
           <Button type="button" className="shad-button_dark_4">
             Cancelar
           </Button>
-          <Button type="submit" className="shad-button_primary">
-            Submit
+          <Button type="submit" className="shad-button_primary" disabled={isLoadingCreate || isLoadingUpdate}>
+            {isLoadingCreate || isLoadingUpdate && 'Carregando...'}
+            {action}Post
           </Button>
         </div>
       </form>
