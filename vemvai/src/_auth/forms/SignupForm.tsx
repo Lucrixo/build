@@ -16,18 +16,25 @@ import { useForm } from "react-hook-form";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import { Loader } from "lucide-react";
-import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations";
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const { toast } = useToast();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const navigate = useNavigate();
-
-  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
-  //é o mutationFn (cria o user de forma assincrona)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   
-  const { mutateAsync: signInAccount, isPending: isSigninIn } = useSignInAccount();
+
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
+    useCreateUserAccount();
+  //é o mutationFn (cria o user de forma assincrona)
+
+  const { mutateAsync: signInAccount, isPending: isSigninInUser } =
+    useSignInAccount();
 
   // 1. Define your form
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -44,27 +51,31 @@ const SignupForm = () => {
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     const newUser = await createUserAccount(values);
 
-    if(!newUser) {
-      return toast({ title: 'Registro falhou. Tente de novo, por favor.' })
+    if (!newUser) {
+      return toast({ title: "Registro falhou. Tente de novo, por favor." });
     }
 
     const session = await signInAccount({
       email: values.email,
       password: values.password,
-    })
+    });
 
-    if(!session) {
-      return toast({title: 'Login falhou. Tente de novo, por favor.'})
+    if (!session) {
+      toast({ title: "Something went wrong. Please login your new account", });
+      
+      navigate("/sign-in");
+      
+      return;
     }
-
     const isLoggedIn = await checkAuthUser();
 
-    if(isLoggedIn){
+    if (isLoggedIn) {
       form.reset();
 
-      navigate('/')
+      navigate("/");
     } else {
-      return toast({ title: 'Registro falhou. Tente de novo, por favor.'})
+       toast({ title: "Registro falhou. Tente de novo, por favor." });
+       return;
     }
   }
 
@@ -74,7 +85,10 @@ const SignupForm = () => {
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Bem Vindo</h2>
         <p className="text-light-3">Vamos nos conectar em segundos</p>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 w-full mt-4"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -128,15 +142,19 @@ const SignupForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isCreatingAccount ? (
+            {isCreatingAccount || isSigninInUser || isUserLoading ? (
               <div className="flex center gap-2">
-                  <Loader/> Carregando...
+                <Loader /> Carregando...
               </div>
-            ): "Sign up"}
+            ) : (
+              "Sign up"
+            )}
           </Button>
 
           <p className="text-small-regular text-center">
-              <Link to="/sign-in" className="text-primary text-small-semibold">Login</Link>
+            <Link to="/sign-in" className="text-primary text-small-semibold">
+              Login
+            </Link>
           </p>
         </form>
       </div>

@@ -23,8 +23,8 @@ const SigninForm = () => {
   const { toast } = useToast();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const navigate = useNavigate();
-  
-  const { mutateAsync: signInAccount } = useSignInAccount();
+
+  const { mutateAsync: signInAccount, isPending } = useSignInAccount();
 
   // 1. Define your form
   const form = useForm<z.infer<typeof SigninValidation>>({
@@ -33,37 +33,40 @@ const SigninForm = () => {
       email: "",
       password: "",
     },
-  })
+  });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof SigninValidation>) {
-    const session = await signInAccount({
-      email: values.email,
-      password: values.password,
-    })
+  const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
+    const session = await signInAccount(user);
 
-    if(!session) {
-      return toast({title: 'Login falhou. Tente de novo, por favor.'})
+    if (!session) {
+      toast({ title: "Login failed. Please try again." });
+      
+      return;
     }
 
     const isLoggedIn = await checkAuthUser();
 
-    if(isLoggedIn){
+    if (isLoggedIn) {
       form.reset();
 
-      navigate('/')
+      navigate("/");
     } else {
-      return toast({ title: 'Registro falhou. Tente de novo, por favor.'})
+      toast({ title: "Login failed. Please try again.", });
+      
+      return;
     }
-  }
-
+  };
   return (
     <Form {...form}>
       <div className="flex-center flex-col">
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Bem Vindo de volta</h2>
         <p className="text-light-3">Vamos nos conectar em segundos</p>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
+        <form
+          onSubmit={form.handleSubmit(handleSignin)}
+          className="flex flex-col gap-5 w-full mt-4"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -91,15 +94,20 @@ const SigninForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isUserLoading ? (
+            { isPending || isUserLoading ? (
               <div className="flex center gap-2">
-                  <Loader/> Carregando...
+                <Loader /> Carregando...
               </div>
-            ): "Sign in"}
+            ) : (
+              "Sign in"
+            )}
           </Button>
 
           <p className="text-small-regular text-center">
-              <Link to="/sign-up" className="text-primary text-small-semibold"> Registre-se aqui.</Link>
+            <Link to="/sign-up" className="text-primary text-small-semibold">
+              {" "}
+              Registre-se aqui.
+            </Link>
           </p>
         </form>
       </div>
