@@ -45,24 +45,35 @@
 
 Esse projeto foi desenvolvido com as seguintes tecnologias
   - [Notion](https://www.notion.so/Requisitos-d445c9a12acc4cc2ba5298d2216ee00f)
-  - [Pandas](link)
-  - [Vite](link)
-  - [appwrite](link)
-  - [node](link)
-  - [tailwindcss](link)
-  - [zod](link)
-  - [Shadcnui](link)
-  - [+react](link)
-  - [TypeScript](link)
-  - [eslint](link)
-  - [react-dom](link)
+
+  Projeto com React + Vite + TS !!!!
+
+  Estilos com Tailwindcss + Shadcn!
+
+
+  Rodar o projeto com esses comandos >>>>>
+
+  Tenha instalado o pacote Node.js (Rodar com "npm run dev")
+
+  E adicione um aquivo local ( .env.local ) > 
+VITE_APPWRITE_URL='https://cloud.appwrite.io/v1'
+VITE_APPWRITE_PROJECT_ID='6659aca000063bfa4db9'
+VITE_APPWRITE_STORAGE_ID='665b98f4002a2578866d'
+VITE_APPWRITE_DATABASE_ID='665b995c000df6ac1757'
+VITE_APPWRITE_POSTS_COLLECTION_ID='665b99c70035ba523655'
+VITE_APPWRITE_USERS_COLLECTION_ID='665b99e90029ccf17da6' 
+
+É apenas um projeto base, para teste local, implementaremos mais tarde novas funcionalidades e segunraça!
+
+
 ## 🔖 Layout
 
 Você pode visualizar o layout do projeto através do link abaixo:
 
-- [Layout Web](https://www.figma.com/design/eOg42puG2qdl346fmBBtDB/Untitled?node-id=0-1&t=PJbahgrMz5HpMyMl-0) 
+- [Layout Web](https://www.figma.com/design/9RuVvWhgFUh1LvlqYAUpXY/VemVai?node-id=0-1&t=SCmOcac1a8U3jZDd-1) 
 
 Lembrando que você precisa ter uma conta no [Figma](http://figma.com/).
 ---
+
 <h6> Projeto desenvolvido em favor de Soluções Sustentáveis para um Futuro Próspero 🌳 VEM VAI! ↪️↩️
 </h6>
