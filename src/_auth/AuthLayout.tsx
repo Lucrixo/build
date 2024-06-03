@@ -21,7 +21,7 @@ export default function AuthLayout() {
             <div className="md:w-1/4 flex flex-col justify-center items-center">
               <img src="/assets/images/logo_azul.svg" alt="Logo" className="w-40 h-auto mb-6" />
               <h2 className="text-2xl font-semibold mb-4">VemVai soluções práticas.</h2>
-              <p className="text-lg text-center">Somos uma empresa inovadora dedicada a fornecer soluções de qualidade para nossos clientes.</p>
+              <p className="text-lg text-center">Revolucione a forma de lidar com resíduos com a VemVai, líder em reciclagem sustentável e ecoeficiente.</p>
             </div>
             <div className="md:w-1/2">
               <Outlet />
