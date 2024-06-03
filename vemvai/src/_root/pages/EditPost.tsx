@@ -25,19 +25,19 @@ const EditPost = () => {
   
 
   return (
-    <div className="flex flex-1">
-      <div className="common-container">
-        <div className="justify-start">
-          <h2 className=" h3-bold">Anuncie aqui!</h2>
-        </div>
-
-        <PostForm action="Update" post={post} />
-
+    <div className="flex flex-1 justify-center items-center">
+    <div className="bg-white p-8 rounded-lg shadow-lg">
+      <h2 className="text-custom font-bold text-2xl mb-4">Anuncie aqui!</h2>
+  
+      <PostForm action="Update" post={post} />
+  
+      {user.id === post?.creator.$id && (
+        <div className="flex">
         <Button
           onClick={handleDeletePost}
           variant="ghost"
           className={`ghost_details-delete_btn ${
-            user.id !== post?.creator.$id && "hidden"
+            user.id !== post?.creator.$id ? "hidden" : ""
           }`}
         >
           <img
@@ -45,10 +45,13 @@ const EditPost = () => {
             alt="delete"
             width={24}
             height={24}
+            className="text-custom"
           />
         </Button>
       </div>
+      )}
     </div>
+  </div>
   );
 };
 

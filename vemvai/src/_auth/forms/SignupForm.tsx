@@ -27,7 +27,6 @@ const SignupForm = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
-  
 
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
     useCreateUserAccount();
@@ -61,10 +60,10 @@ const SignupForm = () => {
     });
 
     if (!session) {
-      toast({ title: "Something went wrong. Please login your new account", });
-      
+      toast({ title: "Algo deu errado. Por favor, coloque seu novo Cadastro aqui." });
+
       navigate("/sign-in");
-      
+
       return;
     }
     const isLoggedIn = await checkAuthUser();
@@ -74,16 +73,16 @@ const SignupForm = () => {
 
       navigate("/");
     } else {
-       toast({ title: "Registro falhou. Tente de novo, por favor." });
-       return;
+      toast({ title: "Registro falhou. Tente de novo, por favor." });
+      return;
     }
   }
 
   return (
     <Form {...form}>
-      <div className="flex-center flex-col">
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Bem Vindo</h2>
-        <p className="text-light-3">Vamos nos conectar em segundos</p>
+     <div className="container mx-auto max-w-md mt-8 p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold text-center mb-4">Faça parte da VemVai</h1>
+      <p className="text-gray-600 text-center mb-8">Complete o formulário</p>
 
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -133,7 +132,7 @@ const SignupForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
@@ -147,13 +146,15 @@ const SignupForm = () => {
                 <Loader /> Carregando...
               </div>
             ) : (
-              "Sign up"
+              "Cadastrar"
             )}
           </Button>
 
           <p className="text-small-regular text-center">
+            Já possui cadastro? 
             <Link to="/sign-in" className="text-primary text-small-semibold">
-              Login
+            {" "}
+              Faça o login aqui.
             </Link>
           </p>
         </form>

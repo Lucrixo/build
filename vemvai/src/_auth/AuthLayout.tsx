@@ -13,17 +13,24 @@ export default function AuthLayout() {
         <Navigate to="/" />
       ) : (
         <>
-        <section>
-          <Navbar />
-        </section>
-          <section className="flex flex-1 justify-center items-center flex-col py-10">
-            <Outlet />
+          <section>
+            <Navbar />
           </section>
 
-          <section>
-            <Footer/>
+          <section className="auth-section flex flex-col md:flex-row items-center justify-center py-10 gap-10">
+            <div className="md:w-1/4 flex flex-col justify-center items-center">
+              <img src="/assets/images/logo_azul.svg" alt="Logo" className="w-40 h-auto mb-6" />
+              <h2 className="text-2xl font-semibold mb-4">VemVai soluções práticas.</h2>
+              <p className="text-lg text-center">Somos uma empresa inovadora dedicada a fornecer soluções de qualidade para nossos clientes.</p>
+            </div>
+            <div className="md:w-1/2">
+              <Outlet />
+            </div>
           </section>
-        </>  
+          <section>
+            <Footer />
+          </section>
+        </>
       )}
     </>
   );

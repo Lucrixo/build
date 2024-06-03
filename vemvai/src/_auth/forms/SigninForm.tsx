@@ -59,9 +59,9 @@ const SigninForm = () => {
   };
   return (
     <Form {...form}>
-      <div className="flex-center flex-col">
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Bem Vindo de volta</h2>
-        <p className="text-light-3">Vamos nos conectar em segundos</p>
+      <div className="container mx-auto max-w-md mt-8 p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold text-center mb-4">Bem Vindo</h1>
+      <p className="text-gray-600 text-center mb-8">Vamos nos conectar em segundos</p>
 
         <form
           onSubmit={form.handleSubmit(handleSignin)}
@@ -85,7 +85,7 @@ const SigninForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
@@ -99,11 +99,11 @@ const SigninForm = () => {
                 <Loader /> Carregando...
               </div>
             ) : (
-              "Sign in"
+              "Entrar"
             )}
           </Button>
 
-          <p className="text-small-regular text-center">
+          <p className="text-small-regular text-center"> Não possui cadastro?
             <Link to="/sign-up" className="text-primary text-small-semibold">
               {" "}
               Registre-se aqui.

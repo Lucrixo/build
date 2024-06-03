@@ -1,15 +1,16 @@
-import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Button } from '../ui/button';
-import { useSignOutAccount } from '@/lib/react-query/queriesAndMutations';
-import { INITIAL_USER, useUserContext } from '@/context/AuthContext';
-import { navbarLinks } from '@/constants';
-import { INavLink } from '@/types';
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Button } from "../ui/button";
+import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
+import { INITIAL_USER, useUserContext } from "@/context/AuthContext";
+import { navbarLinks } from "@/constants";
+import { INavLink } from "@/types";
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const { mutate: signOut } = useSignOutAccount();
   const navigate = useNavigate();
-  const { user, setUser, isAuthenticated, setIsAuthenticated } = useUserContext();
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useUserContext();
 
   const handleSignOut = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -22,25 +23,20 @@ const Navbar = () => {
   };
 
   return (
-    <section className='navbar'>
+    <section className="w-full flex justify-between items-center my-8 mx-auto px-10 box-border">
+      <div className="h-12 w-24">
+        <img src="/assets/images/logo_azul.svg" className="h-12 w-24" />
+      </div>
       {isAuthenticated ? (
         <>
           {/* Navbar para usuários autenticados */}
-          <div>
-            <Link to='/' className='flex gap-3 items-center'>
+
+          <div className="flex items-center">
+            <Link to="/" className=" text-custom font-bold mr-6">
               Home
             </Link>
-          </div>
-          <div>
-            <Link to={`/profile/${user.id}`} className='flex-center gap-3'>
-              <img
-                src={user.imageUrl || '/assets/assets/profile-placeholder.svg'}
-                alt=''
-                className='h-8 w-8 rounded-full '
-              />
-            </Link>
 
-            <ul className='flex gap-6'>
+            <ul className="flex gap-6">
               {navbarLinks.map((link: INavLink) => {
                 const isActive = pathname === link.route;
                 return (
@@ -54,13 +50,6 @@ const Navbar = () => {
                       to={link.route}
                       className="flex gap-4 items-center p-4"
                     >
-                      <img
-                        src={link.imgURL}
-                        alt={link.label}
-                        className={`group-hover:invert-white ${
-                          isActive && "invert-white"
-                        }`}
-                      />
                       {link.label}
                     </NavLink>
                   </li>
@@ -68,26 +57,33 @@ const Navbar = () => {
               })}
             </ul>
           </div>
+          <div className="flex items-center">
+            <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+              <img
+                src={user.imageUrl || "/assets/assets/profile-placeholder.svg"}
+                alt="foto do usuário"
+                className="h-8 w-8 rounded-full "
+              />
+            </Link>
 
-          <Button
-            variant='ghost'
-            className='shad-button_ghost'
-            onClick={(e) => handleSignOut(e)}
-          >
-            <img src='/assets/icons/logout.svg' alt='logout' />
-          </Button>
+            <Button
+              variant="ghost"
+              className="shad-button_ghost"
+              onClick={(e) => handleSignOut(e)}
+            >
+              <img src="/assets/icons/logout.svg" alt="logout" />
+            </Button>
+          </div>
         </>
       ) : (
         <>
           {/* Navbar para usuários não autenticados */}
-          <div>
-              Logo
-          </div>
-          <div>
-            <Link to="/sign-in" className='flex gap-3 items-center'>
+
+          <div className="flex flex-row justify-around lm:gap-5 sm:gap-0 lg:ml-8 w-40">
+            <Link to="/sign-in" className="text-custom font-bold ">
               Login
             </Link>
-            <Link to="/sign-up" className='flex gap-3 items-center'>
+            <Link to="/sign-up" className="text-custom font-bold">
               Registro
             </Link>
           </div>
