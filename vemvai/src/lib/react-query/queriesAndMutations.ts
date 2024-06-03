@@ -2,7 +2,6 @@ import {
   useQuery, //fetching data
   useMutation, //modificar data
   useQueryClient,
-  useInfiniteQuery,
 } from "@tanstack/react-query";
 import {
   createPost,
@@ -10,6 +9,7 @@ import {
   deletePost,
   getPostById,
   getRecentPosts,
+  getUserPosts,
   signInAccount,
   signOutAccount,
   updatePost,
@@ -86,5 +86,13 @@ export const useDeletePost = () => {
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
       });
     },
+  });
+};
+
+export const useGetUserPosts = (userId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_POSTS, userId],
+    queryFn: () => getUserPosts(userId),
+    enabled: !!userId,
   });
 };

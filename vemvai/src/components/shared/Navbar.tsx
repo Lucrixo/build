@@ -1,29 +1,32 @@
-import { useEffect } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { Button } from '../ui/button'
 import { useSignOutAccount } from '@/lib/react-query/queriesAndMutations'
-import { useUserContext } from '@/context/AuthContext';
+import { INITIAL_USER, useUserContext } from '@/context/AuthContext';
 import { navbarLinks } from '@/constants';
 import { INavLink } from '@/types';
 
 
 const Navbar = () => {
   const { pathname } = useLocation();
-  const { mutate: signOut, isSuccess } = useSignOutAccount();
+  const { mutate: signOut } = useSignOutAccount();
   const navigate = useNavigate();
-  const { user } = useUserContext();
+  const { user, setUser, setIsAuthenticated } = useUserContext();
 
-  useEffect(() => {
-    if(isSuccess) {
-      navigate(0);
-    }
-  }, [isSuccess, navigate])
+  const handleSignOut = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    signOut();
+    setIsAuthenticated(false);
+    setUser(INITIAL_USER);
+    navigate("/sign-in");
+  };
 
   return (
     <section className='navbar'>
       <div>
         <Link to='/' className='flex gap-3 items-center'>
-        <img/>
+        Home 
         </Link>
       </div>
       <div>
@@ -60,7 +63,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <Button variant='ghost' className='shad-button_ghost' onClick={() => signOut}>
+      <Button variant='ghost' className='shad-button_ghost' onClick={(e) => handleSignOut(e)}>
           <img src='/assets/icons/logout.svg' alt='logout' />
         </Button>
     </section>

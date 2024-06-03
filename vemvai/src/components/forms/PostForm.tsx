@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
 import { z } from "zod";
@@ -152,9 +152,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
         />
 
         <div className="flex gap-4 items-center justify-end">
-          <Button type="button" className="shad-button_dark_4">
-            Cancelar
-          </Button>
+          <Link to='/' className="">
+            Voltar
+          </Link>
           <Button type="submit" className="shad-button_primary" disabled={isLoadingCreate || isLoadingUpdate}>
             {isLoadingCreate || isLoadingUpdate && 'Carregando...'}
             {action}Post

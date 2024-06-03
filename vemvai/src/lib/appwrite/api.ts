@@ -99,6 +99,7 @@ export async function signOutAccount() {
   }
 }
 
+
 export async function createPost(post: INewPost) {
   try {
     // Upload file to appwrite storage
@@ -277,18 +278,35 @@ export async function updatePost(post: IUpdatePost) {
   }
 }
 
-
 export async function deletePost(postId: string, imageId: string) {
-  if(!postId || !imageId) throw Error;
+  if (!postId || !imageId) throw Error;
 
   try {
     await databases.deleteDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
       postId
-    )
+    );
 
-    return { status: 'okay' }
+    return { status: "okay" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserPosts(userId?: string) {
+  if (!userId) return;
+
+  try {
+    const post = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+    );
+
+    if (!post) throw Error;
+
+    return post;
   } catch (error) {
     console.log(error);
   }
