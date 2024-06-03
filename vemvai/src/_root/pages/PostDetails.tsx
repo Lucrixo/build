@@ -1,10 +1,11 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { multiFormatDateString } from "@/lib/utils";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
+import { useDeletePost, useGetPostById } from "@/lib/react-query/queriesAndMutations";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
+import { toast } from "@/components/ui/use-toast";
 
 
 const PostDetails = () => {
@@ -13,11 +14,12 @@ const PostDetails = () => {
   const { data: post, isPending } = useGetPostById(id || "");
   const { user } = useUserContext();
 
-  // const { mutate: deletePost } = useDeletePost();
+  const { mutate: deletePost } = useDeletePost();
 
   const handleDeletePost = () => {
-    // deletePost({ postId: id, imageId: post?.imageId });
-    // navigate(-1);
+    deletePost({ postId: id!, imageId: post?.imageId });
+    navigate('/');
+    return toast({title: 'Deletado com sucesso!'})
   };
   return (
     <div className="post_details-container">
