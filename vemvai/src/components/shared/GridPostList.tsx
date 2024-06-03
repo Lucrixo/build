@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useUserContext } from "@/context/AuthContext";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 
@@ -11,7 +10,7 @@ type GridPostListProps = {
 };
 
 const GridPostList = ({ posts, showUser = true }: GridPostListProps) => {
-  const { user } = useUserContext();
+  // const { user } = useUserContext();
 
   return (
     <ul className="grid-container">
